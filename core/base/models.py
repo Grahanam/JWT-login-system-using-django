@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
-from PIL import Image
-import random
-import os
-import uuid
+
 
 class MyAccountManager(BaseUserManager):
 
@@ -52,54 +49,4 @@ class CustomUser(AbstractBaseUser):
         return True
 
 
-def nameFile(instance, filename):
-    return '/'.join(['images', str(instance.name), filename])
-
-def photo_path(instance, filename):
-    basefilename, file_extension= os.path.splitext(filename)
-    chars= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-    randomstr= ''.join((random.choice(chars)) for x in range(10))
-    return 'images/{basename}{randomstring}{ext}'.format( basename= basefilename, randomstring= randomstr, ext= file_extension)    
-         
-class Imageresize(models.Model):
-    id=models.UUIDField(primary_key=True, default=uuid.uuid4)
-    thumbnail=models.ImageField(upload_to=photo_path,null=True)
-    medium=models.ImageField(upload_to=photo_path,null=True)
-    large=models.ImageField(upload_to=photo_path,null=True)
-    grayscale=models.ImageField(upload_to=photo_path,null=True)
-
-    def __str__(self):
-        return f'Imageresize'
-    
-    def save(self,*args,**kwargs):
-        super().save(*args,**kwargs)
-        
-        LARGE=1024,768
-        img=Image.open(self.large.path)
-        if img.height>768 or img.width>1024:
-#using img.thumbnail maintains the original aspect while img.resize can lead to stretched or squished image result.        
-            # img.thumbnail(LARGE,Image.ANTIALIAS)
-            # img.save(self.large.path)
-            img_resize_large=img.resize(LARGE,Image.ANTIALIAS)
-            img_resize_large.save(self.large.path)      
-    
-        MEDIUM_SIZE=500,500
-        img=Image.open(self.medium.path)
-        if img.height>500 or img.width>500:
-            # img.thumbnail(MEDIUM_SIZE,Image.ANTIALIAS)
-            # img.save(self.medium.path) 
-            img_resize_medium=img.resize(MEDIUM_SIZE,Image.ANTIALIAS)
-            img_resize_medium.save(self.medium.path) 
-
-        THUMNAIL_SIZE=200,300    
-        img=Image.open(self.thumbnail.path)
-        if img.height>300 or img.width>200:
-            # img.thumbnail(THUMNAIL_SIZE,Image.ANTIALIAS)
-            # img.save(self.thumbnail.path)
-            img_resize_large=img.resize(THUMNAIL_SIZE,Image.ANTIALIAS)
-            img_resize_large.save(self.thumbnail.path)
-        
-        img=Image.open(self.grayscale.path)
-        greyscale_image = img.convert('L')
-        greyscale_image.save(self.grayscale.path)
         

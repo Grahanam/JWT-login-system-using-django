@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import CustomUser,Imageresize
+from .models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password=serializers.CharField(max_length=128,min_length=3,write_only=True)
+    password=serializers.CharField(max_length=16,min_length=8,write_only=True)
     class Meta:
         model = CustomUser
         fields = ['email', 'password']
@@ -14,12 +14,4 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Imageresize
-        fields ='__all__'
 
-    # def save(self,*args,**kwargs):
-    #     return Imageresize.objects.save(*args,**kwargs)    
-    # def save(self,validated_data):
-    #     return Imageresize.objects.save(**validated_data)

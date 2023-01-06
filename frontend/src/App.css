@@ -59,3 +59,20 @@
     transform: rotate(360deg);
   }
 }
+
+.outer-container{
+  padding: 10px;
+}
+
+.container{
+  display: flex;
+  padding: 50px;
+  flex-direction: column;
+  /* width: fit-content; */
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.container input{
+  margin: 5px;
+}

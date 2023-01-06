@@ -23,7 +23,7 @@ from datetime import timedelta
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8-cnkpg(=ria*(+5c0q%-k&oamw!kspt+op!tham)jg)%!57by'
+SECRET_KEY = 'secret-key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -164,6 +164,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# AUTH_PASSWORD_VALIDATORS = [
+#     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#         'OPTIONS': {
+#             'min_length': 6, }
+#      },
+#     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+#     {'NAME': 'api.validators.NumberValidator',
+#         'OPTIONS': {
+#             'min_digits': 3, }},
+#     {'NAME': 'api.validators.UppercaseValidator', },
+#     {'NAME': 'api.validators.LowercaseValidator', },
+#     {'NAME': 'api.validators.SymbolValidator', },
+# ]
 
 
 # Internationalization
